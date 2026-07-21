@@ -3,8 +3,11 @@ import MicrofrontendLoader from "./MicrofrontendLoader";
 
 const microfrontends = [
   {
-    path: "u",
-    src: "http://localhost:8081/index-CH-jQgBV.js",
+    name: "microfrontend-one",
+    path: "u/app-1",
+    // Relativo: mismo origen que el shell, el edge nginx lo resuelve
+    // haciendo proxy_pass hacia el contenedor de microfrontend-one.
+    basePath: "/microfrontend-one",
   },
 ];
 
@@ -14,8 +17,8 @@ const MicrofrontendRouter = () => {
       {microfrontends.map((mf) => (
         <Route
           key={mf.path}
-          path={mf.path}
-          element={<MicrofrontendLoader src={mf.src} />}
+          path={`${mf.path}/*`}
+          element={<MicrofrontendLoader name={mf.name} basePath={mf.basePath} />}
         />
       ))}
     </Routes>
