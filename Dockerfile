@@ -1,19 +1,8 @@
-# ---- Build ----
-FROM node:22-alpine AS build
-WORKDIR /app
-
-RUN corepack enable
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
-COPY . .
-RUN pnpm build
-
-# ---- Serve (edge) ----
+# El build (pnpm build) se ejecuta antes de este paso (local o en CI).
+# Esta imagen solo sirve los estáticos ya compilados.
 FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
+COPY build /usr/share/nginx/html
 
 EXPOSE 80
