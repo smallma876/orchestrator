@@ -11,3 +11,9 @@ jobs:
     uses: smallma876/ci-templates/.github/workflows/npm-build.yml@main
     with:
       node-version: '24'
+  docker:
+    needs: build
+    if: github.event_name == 'push'
+    uses: smallma876/ci-templates/.github/workflows/docker-build.yml@main
+    with:
+      image-name: 'smallma876/orchestrator'
