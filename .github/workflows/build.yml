@@ -1,0 +1,13 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    uses: smallma876/ci-templates/.github/workflows/npm-build.yml@main
+    with:
+      node-version: '24'
